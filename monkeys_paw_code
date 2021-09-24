@@ -1,0 +1,45 @@
+#open file,  from using_pronouncing notebook
+with open('/content/drive/MyDrive/novel poem/monkeys paw.txt') as f:
+  text=f.read()
+
+text = text.replace("“","\"").replace("”","")
+
+# add blobify, from using_pronouncing notebook
+from textblob import TextBlob
+import nltk
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+
+blob = TextBlob(text)
+
+# add pronouncing, from using_pronouncing notebook
+!pip install pronouncing
+import pronouncing
+
+#clean up sentence
+for sentence in blob.sentences:
+  clean_sentence = re.sub(r'[,\.\"“”\?\!\;\-\&]', ' ', str(sentence)).replace('’','\'')
+  sentence_phonemes = []
+
+  for word in clean_sentence.split():
+
+    word_phonemes = pronouncing.phones_for_word(word)
+
+    if (len(word_phonemes) > 0):
+      sentence_phonemes.append(word_phonemes[0])
+
+#counting syllables
+  syllables = 0
+  lst=[]
+  for p in sentence_phonemes:
+    syllables += pronouncing.syllable_count(p)
+
+#making the poem    
+ 
+  if (syllables is 4): #poem can be changed by changing the number of syllables
+    lst=[sentence]
+    lst.append(sentence.split(" "))
+    print(lst[0][0], lst[0][2], lst[0][4], lst[0][6], lst[0][1], lst[0][3], lst[0][5], lst[0][7])
+    #print(lst[0][0], lst[0][1], lst[0][2], lst[0][3], lst[0][4], lst[0][5], lst[0][6], lst[0][7]) #adds a second line of plain english after each line,
+                                                                                                       #like a translation
+
