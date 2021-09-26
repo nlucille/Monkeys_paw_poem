@@ -18,7 +18,7 @@ import pronouncing
 
 #clean up sentence
 for sentence in blob.sentences:
-  clean_sentence = re.sub(r'[,\.\"“”\?\!\;\-\&]', ' ', str(sentence)).replace('’','\'')
+  clean_sentence = sentence
   sentence_phonemes = []
 
   for word in clean_sentence.split():
